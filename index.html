@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guess-A-Number</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      section {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: row;
+        border: 10px;
+      }
+      .gaming {
+        height: 100vh;
+        width: 50vw;
+        background-color: aqua;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 10px;
+        border: 10px solid rgba(255, 255, 255, 0.18);
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+      }
+      .gaming h1 {
+        padding-top: 50px;
+        padding-left: 50px;
+        padding-bottom: 50px;
+        padding-right: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-style: oblique;
+      }
+      .gaming h2 {
+        padding: 10px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        font-style: italic;
+        font-size: 50px;
+        text-align: center;
+      }
+      .gaming-content {
+        height: 100vh;
+        width: 50vw;
+        background-color: blueviolet;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 10px;
+        border: 10px solid rgba(255, 255, 255, 0.18);
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+      }
+      .gaming-content h2 {
+        padding: 10px;
+        padding-top: 50px;
+
+        font-style: italic;
+        font-size: 50px;
+        text-align: center;
+      }
+      input {
+        display: flex;
+        padding: 10px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+
+        margin-top: 50px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        text-align: center;
+
+        align-items: start;
+        justify-content: start;
+        gap: 10px;
+      }
+      button {
+        padding-top: 10px;
+        padding-left: 20px;
+        padding-bottom: 10px;
+        padding-right: 20px;
+        display: flex;
+        cursor: pointer;
+
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        border: 1px solid black;
+        border-radius: 10px;
+      }
+      button:hover {
+        background-color: mediumvioletred;
+        color: white;
+      }
+      #status {
+        margin-top: 70px;
+        font-size: 100px;
+        font-style: bold;
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+      @media screen and (max-width: 992px) {
+        section {
+          display: flex;
+          flex-direction: column;
+          /* justify-content: center; */
+          align-items: center;
+        }
+        .gaming,
+        .gaming-content {
+          width: 90vw;
+          height: 50vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div class="gaming">
+        <h2 id="sys">Random Number</h2>
+        <h1 id="rand">Hello</h1>
+        <button onclick="generate()">Reset</button>
+        <span style="font-size: 20px">score</span>
+        <span id="score">0</span>
+        <p id="status"></p>
+      </div>
+      <div class="gaming-content">
+        <h2>Guess a number</h2>
+        <span id="attempts">10</span>
+        <input type="number" id="choose" placeholder="Enter value" />
+        <button onclick="validate()">Submit</button>
+      </div>
+    </section>
+
+    <script>
+      let score = 0;
+      let chances = 10;
+      function validate() {
+        chances = chances - 1;
+        document.getElementById("attempts").innerText = chances;
+        let userValue = document.querySelector("#choose").value;
+        generate();
+        let systemValue = document.querySelector("#rand").innerText;
+        console.log(userValue, systemValue);
+        if (userValue === "" || userValue < 1 || userValue > 3) {
+          alert("Choose a number from 1 to 3");
+        } else if (chances === 0) {
+          document.getElementById("status").innerText = "GAME OVER";
+          alert("please reset the game");
+        } else if (userValue === systemValue) {
+          console.log("win");
+          document.querySelector(".gaming-content").style.backgroundColor =
+            "#9ADE7B";
+          document.getElementById("status").innerText = "WON";
+          score = score + 1;
+          document.getElementById("score").innerText = score;
+        } else {
+          console.log("loose");
+          document.querySelector(".gaming-content").style.backgroundColor =
+            "#FA7070";
+          document.getElementById("status").innerText = "LOST";
+          document.getElementById("score").innerText = score;
+        }
+      }
+      function generate() {
+        let randomnumber = Math.ceil(Math.random() * 3);
+        document.querySelector("#rand").innerText = randomnumber;
+        document.querySelector("#choose").value = null;
+        document.getElementById("score").innerText = 0;
+        document.getElementById("status").innerText = "ALL THE BEST";
+      }
+    </script>
+  </body>
+</html>
